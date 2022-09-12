@@ -30,3 +30,7 @@ jobs:
       START_DATE: ${{ secrets.START_DATE }}
       BIRTHDAY: ${{ secrets.BIRTHDAY }}
       CITY: ${{ secrets.CITY }}
+      USER_ID2: ${{ secrets.USER_ID2 }}
+      HF_CITY_HTML: ${{ secrets.HF_CITY_HTML }}
+      HF_CARD_WRAP: ${{ secrets.HF_CARD_WRAP }}
+      HF_CARD_ABSTRACT: ${{ secrets.HF_CARD_ABSTRACT }}
