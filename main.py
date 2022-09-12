@@ -5,6 +5,7 @@ from wechatpy.client.api import WeChatMessage, WeChatTemplate
 import requests
 import os
 import random
+from bs4 import BeautifulSoup
 
 today = datetime.now()
 start_date = os.environ['START_DATE']
@@ -15,7 +16,12 @@ app_id = os.environ["APP_ID"]
 app_secret = os.environ["APP_SECRET"]
 
 user_id = os.environ["USER_ID"]
+user_id2 = os.environ["USER_ID2"]
 template_id = os.environ["TEMPLATE_ID"]
+
+hf_city_html = os.environ['HF_CITY_HTML']
+hf_card_wrap = os.environ['HF_CARD_WRAP']
+hr_card_abstract = os.environ['HF_CARD_ABSTRACT']
 
 
 def get_weather():
@@ -45,6 +51,22 @@ def get_words():
 def get_random_color():
   return "#%06x" % random.randint(0, 0xFFFFFF)
 
+# 例如：今晚晴。明天小雨，温度和今天差不多（29°），空气不错。
+def get_hf_weather_s():
+  # url = 'https://www.qweather.com/weather/linyi-101120901.html'
+  res = requests.get(hf_city_html)
+  res.encoding='utf-8'
+  html = res.text
+  soup = BeautifulSoup(html, 'html.parser')
+  # 天气卡片
+  # card = soup.find('div', class_ = 'c-city-weather-current city-weather-sun')
+  card = soup.find('div', class_ = hf_card_wrap)
+  # 天气简要描述
+  # detail = card.find('div', class_ = 'current-abstract')
+  detail = card.find('div', class_ = hr_card_abstract)
+  detail_str = detail.string
+  return detail_str
+
 
 client = WeChatClient(app_id, app_secret)
 
@@ -58,7 +80,9 @@ data = {
   "high_temp":{"value": high_temp},
   "love_days":{"value":get_count()},
   "birthday_left":{"value":get_birthday()},
-  "words":{"value":get_words(), "color":get_random_color()}
+  "words":{"value":get_words(), "color":get_random_color()},
+  "hf_abstract":{"value": get_hf_weather_s(), "color":get_random_color()}
 }
 res = wm.send_template(user_id, template_id, data)
+wm.send_template(user_id2, template_id, data)
 print(res)
