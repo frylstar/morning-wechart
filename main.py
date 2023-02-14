@@ -30,6 +30,12 @@ hr_card_abstract = os.environ['HF_CARD_ABSTRACT']
 #   weather = res['data']['list'][0]
 #   return weather['weather'], math.floor(weather['temp']), math.floor(weather['low']), math.floor(weather['high'])
 
+def get_weather_new():
+  url = "https://devapi.qweather.com/v7/weather/now?location=101120901&key=bac728d865c64c07b592dc8466859894"
+  response = requests.get(url).json()
+  res = response['now']
+  return res['text'], res['temp'], res['feelsLike'], res['windDir'], res['windScale'], res['precip'], res['humidity'], res['vis']
+
 #2020-01-01
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
@@ -71,13 +77,17 @@ def get_hf_weather_s():
 client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
-# wea, temperature, low_temp, high_temp = get_weather()
+wea, temperature, feel_temp, wind_dir, wind_scale, precip, humidity, vis = get_weather_new()
 data = {
   "city":{"value":city},
-#   "weather":{"value":wea},
-#   "temperature":{"value":temperature},
-#   "low_temp":{"value":low_temp},
-#   "high_temp":{"value": high_temp},
+  "weather":{"value":wea},
+  "temperature":{"value":temperature},
+  "feel_temp": {"value":feel_temp}, # 体感温度
+  "wind_dir": {"value":wind_dir},
+  "wind_scale": {"value":wind_scale}, # 风力等级
+  "precip": {"value":precip}, # 当前小时累计降水量 毫米
+  "humidity": {"value":humidity}, # 相对湿度%
+  "vis": {"value":vis}, # 能见度，公里
   "love_days":{"value":get_count()},
   "birthday_left":{"value":get_birthday()},
   "words":{"value":get_words(), "color":get_random_color()},
