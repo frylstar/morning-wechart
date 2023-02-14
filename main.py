@@ -24,11 +24,11 @@ hf_card_wrap = os.environ['HF_CARD_WRAP']
 hr_card_abstract = os.environ['HF_CARD_ABSTRACT']
 
 
-def get_weather():
-  url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
-  res = requests.get(url).json()
-  weather = res['data']['list'][0]
-  return weather['weather'], math.floor(weather['temp']), math.floor(weather['low']), math.floor(weather['high'])
+# def get_weather():
+#   url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
+#   res = requests.get(url).json()
+#   weather = res['data']['list'][0]
+#   return weather['weather'], math.floor(weather['temp']), math.floor(weather['low']), math.floor(weather['high'])
 
 #2020-01-01
 def get_count():
@@ -71,13 +71,13 @@ def get_hf_weather_s():
 client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
-wea, temperature, low_temp, high_temp = get_weather()
+# wea, temperature, low_temp, high_temp = get_weather()
 data = {
   "city":{"value":city},
-  "weather":{"value":wea},
-  "temperature":{"value":temperature},
-  "low_temp":{"value":low_temp},
-  "high_temp":{"value": high_temp},
+#   "weather":{"value":wea},
+#   "temperature":{"value":temperature},
+#   "low_temp":{"value":low_temp},
+#   "high_temp":{"value": high_temp},
   "love_days":{"value":get_count()},
   "birthday_left":{"value":get_birthday()},
   "words":{"value":get_words(), "color":get_random_color()},
