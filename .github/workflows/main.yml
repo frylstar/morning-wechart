@@ -1,7 +1,7 @@
 name: morning
 on:
   schedule:
-  - cron:  '58 22,8 * * *' #每日6点58分，16点58分，两个时间点执行任务 +8
+  - cron:  '58 22,2,8 * * *' #每日6点58分，16点58分，两个时间点执行任务 +8
   workflow_dispatch:
 
 jobs:
