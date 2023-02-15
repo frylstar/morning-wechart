@@ -1,7 +1,7 @@
 name: morning
 on:
   schedule:
-  - cron:  '58 22,8 * * *'
+  - cron:  '58 22,8 * * *' #每日6点58分，16点58分，两个时间点执行任务 +8
   workflow_dispatch:
 
 jobs:
@@ -15,6 +15,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: master
+
+    - uses: szenius/set-timezone@v1.0 # 设置执行环境的时区
+      with:
+        timezoneLinux: "Asia/Shanghai"
 
     - name: sender
       uses: actions/setup-python@v2

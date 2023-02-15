@@ -39,7 +39,7 @@ def get_weather_new():
 #2020-01-01
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
-  return delta.days
+  return delta.days + 1
 
 #01-01
 def get_birthday():
